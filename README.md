@@ -1,4 +1,4 @@
-# Deploy ML models using Flask and Docker
+# Deploy ML models using Flask and Docker and Jenkins
 
 * 0/ Configure the Jenkins server for continuous integration
 * 1/ Building ML model and saving it
