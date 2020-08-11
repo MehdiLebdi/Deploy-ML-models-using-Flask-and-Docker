@@ -1,5 +1,4 @@
-flask
-flask_restful
 sklearn 
 pandas
-numpy
+flask
+flask_restful
