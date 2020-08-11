@@ -1,34 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
-import pickle
-from  sklearn import  datasets
-iris=datasets.load_iris()
-x=iris.data
-y=iris.target
+from sklearn import datasets
+cancer = datasets.load_breast_cancer()
 
-#labels for iris dataset
+#Labels for cancer dataset
 labels ={
-  0: "setosa",
-  1: "versicolor",
-  2: "virginica"
+  0: "malignant",
+  1: "benign"
 }
 
-#split the data set
+#Split the data set
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=.25)
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, test_size=0.2, random_state=0)
 
-#Using decision tree algorithm
-from sklearn import tree
-classifier=tree.DecisionTreeClassifier()
-classifier.fit(x_train,y_train)
-predictions=classifier.predict(x_test)
+#Random Forest Classifier
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators = 100, random_state = 0)
+rf_model = rf.fit(X_train, y_train)
 
-#export the model
-pickle.dump(classifier, open('model.pkl','wb'))
+#Export the model
+import pickle
+pickle.dump(rf_model, open('model.pkl','wb'))
 
-#load the model and test with a custom input
-model = pickle.load( open('model.pkl','rb'))
-x = [[6.7, 3.3, 5.7, 2.1]]
-predict = model.predict(x)
-print("Hello Worlds")
-print(labels[predict[0]])
+#Load and test the model
+model = pickle.load(open('model.pkl','rb'))
+prediction = model.predict(X_test)
+print(labels[prediction[0]])
