@@ -1,22 +1,19 @@
 from flask import Flask, request, jsonify
-import json
-import pickle
-import pandas as pd
-import numpy as np
 
 app = Flask(__name__)
 
-# Load the model
+#Load the model
+import pickle
 model = pickle.load(open('model.pkl','rb'))
 labels ={
-  0: "versicolor",   
-  1: "setosa",
-  2: "virginica"
+  0: "malignant",
+  1: "benign"
 }
 
-@app.route('/api',methods=['POST'])
+import json
+@app.route('/api', methods=['POST'])
 def predict():
-    # Get the data from the POST request.
+  # POST request for the data
 	data = request.get_json(force=True)
 	predict = model.predict(data['feature'])
 	return jsonify(predict[0].tolist())
